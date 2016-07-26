@@ -1,0 +1,25 @@
+{
+  "name": "yml-loader",
+  "version": "0.0.0",
+  "description": "YAML loader for webpack",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkt/yml-loader.git"
+  },
+  "keywords": [
+    "yaml",
+    "loader",
+    "webpack",
+    "webpack-loader"
+  ],
+  "author": "Nikita Gusakov <gusnkt@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nkt/yml-loader/issues"
+  },
+  "homepage": "https://github.com/nkt/yml-loader#readme",
+  "dependencies": {
+    "js-yaml": "^3.6.1"
+  }
+}
