@@ -1,6 +1,6 @@
 {
   "name": "yml-loader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "YAML loader for webpack",
   "main": "index.js",
   "repository": {
@@ -9,6 +9,10 @@
   },
   "keywords": [
     "yaml",
+    "json",
+    "remove",
+    "keys",
+    "blacklist",
     "loader",
     "webpack",
     "webpack-loader"
@@ -20,6 +24,7 @@
   },
   "homepage": "https://github.com/nkt/yml-loader#readme",
   "dependencies": {
-    "js-yaml": "^3.6.1"
+    "js-yaml": "^3.6.1",
+    "loader-utils": "^0.2.15"
   }
 }
