@@ -1,25 +1,27 @@
 var yaml = require('js-yaml');
-var loaderUtils = require('loader-utils');
+var parseQuery = require('loader-utils').parseQuery;
+
 
 function jsonValueReplacer(replacerConf, key, value){
   var blacklist = replacerConf.blacklist || [];
   var shouldRemoveKey = blacklist.indexOf(key) > -1;
   if (shouldRemoveKey) {
-    console.info([
-      'Removing key ', key,
-      ' in file ', replacerConf.filename,
-      '.'
-    ].join('"'));
+    if (replacerConf.debug) {
+      replacerConf.loader.emitWarning([
+        'Removing key ', key,
+        ' from file ', replacerConf.filename,
+        '.'
+      ].join('"'));
+    }
+    return undefined;
   }
-  return shouldRemoveKey ? undefined : value;
+  return value;
 }
 
 module.exports = function ymlLoader(source, map){
   var loader = this;
   loader.cacheable && loader.cacheable();
 
-  var query = loaderUtils.parseQuery(loader.query);
-  var keysToRemove = query.keysToRemove;
   var filename = loader.resourcePath;
 
   var yamlFile = yaml.safeLoad(source, {
@@ -28,17 +30,32 @@ module.exports = function ymlLoader(source, map){
       loader.emitWarning(error.toString());
     }
   });
-
-  var anyKeysToReplace = Array.isArray(keysToRemove) && keysToRemove.length;
+  var query = parseQuery(loader.query);
+  var debug = 'debug' in query ? query.debug : loader.debug || false;
+  var keysToRemove = query.keysToRemove || [];
+  var anyKeysToRemove = Boolean(Array.isArray(keysToRemove) && keysToRemove.length);
   var replacerConf = {
+    debug: debug,
+    loader: loader,
     filename: filename,
     blacklist: keysToRemove
   };
-  var replacerWithConf = anyKeysToReplace ? jsonValueReplacer.bind(replacerConf) : undefined;
+  var replacerWithConf = anyKeysToRemove ? jsonValueReplacer.bind(null, replacerConf) : undefined;
 
-  return [
-    'module.exports = ',
-    JSON.stringify(yamlFile, replacerWithConf, '\t'),
-    ';'
-  ].join('');
+  var result;
+  try {
+    result = JSON.stringify(yamlFile, replacerWithConf, '\t');
+  } catch (ex) {
+    result = JSON.stringify({
+      exception: ex,
+      error: ex.message,
+      filename: filename,
+      keysToRemove: keysToRemove
+    });
+    loader.emitError([
+      'Failed to stringify yaml from file ', filename, '! Message: ',
+      ex.message, ' Stack: \n', ex.stack
+    ].join('"'));
+  }
+  return 'module.exports = ' + result + ';';
 };
