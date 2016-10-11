@@ -8,7 +8,7 @@ Installation
 ------------
 
 ```
-npm instal --save-dev yml-loader
+npm install --save-dev yml-loader
 ```
 
 Usage
