@@ -1,6 +1,5 @@
 var yaml = require('js-yaml');
-var parseQuery = require('loader-utils').parseQuery;
-
+var getOptions = require('loader-utils').getOptions;
 
 function jsonValueReplacer(replacerConf, key, value){
   var blacklist = replacerConf.blacklist || [];
@@ -20,7 +19,6 @@ function jsonValueReplacer(replacerConf, key, value){
 
 module.exports = function ymlLoader(source, map){
   var loader = this;
-  loader.cacheable && loader.cacheable();
 
   var filename = loader.resourcePath;
 
@@ -30,7 +28,7 @@ module.exports = function ymlLoader(source, map){
       loader.emitWarning(error.toString());
     }
   });
-  var query = parseQuery(loader.query);
+  var query = getOptions(loader);
   var debug = 'debug' in query ? query.debug : loader.debug || false;
   var keysToRemove = query.keysToRemove || [];
   var anyKeysToRemove = Boolean(Array.isArray(keysToRemove) && keysToRemove.length);

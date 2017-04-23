@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/nkt/yml-loader#readme",
   "dependencies": {
-    "js-yaml": "^3.6.1",
-    "loader-utils": "^0.2.15"
+    "js-yaml": "^3.8.3",
+    "loader-utils": "^1.1.0"
   }
 }
