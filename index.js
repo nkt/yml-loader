@@ -28,9 +28,9 @@ module.exports = function ymlLoader(source, map){
       loader.emitWarning(error.toString());
     }
   });
-  var query = getOptions(loader);
-  var debug = 'debug' in query ? query.debug : loader.debug || false;
-  var keysToRemove = query.keysToRemove || [];
+  var options = getOptions(loader) || {};
+  var debug = 'debug' in options ? options.debug : loader.debug || false;
+  var keysToRemove = options.keysToRemove || [];
   var anyKeysToRemove = Boolean(Array.isArray(keysToRemove) && keysToRemove.length);
   var replacerConf = {
     debug: debug,
