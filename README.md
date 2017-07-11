@@ -29,6 +29,20 @@ module.exports = {
 };
 ```
 
+Multiple document loading
+-------------------------
+
+By adding a `multiDocument` option will make this possible.
+
+```yaml
+%YAML 1.2
+---
+doc: 1
+---
+doc: 2
+...
+```
+
 
 Blacklisting keys
 -----------------
