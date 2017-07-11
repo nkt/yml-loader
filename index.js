@@ -19,18 +19,21 @@ function jsonValueReplacer(replacerConf, key, value){
 
 module.exports = function ymlLoader(source, map){
   var loader = this;
+  var options = getOptions(loader) || {};
+  var debug = 'debug' in options ? options.debug : loader.debug || false;
+  var keysToRemove = options.keysToRemove || [];
+  var multiDocument = options.multiDocument || false;
 
+  var loadMethod = multiDocument ? yaml.safeLoadAll : yaml.safeLoad;
   var filename = loader.resourcePath;
 
-  var yamlFile = yaml.safeLoad(source, {
+  var yamlFile = loadMethod(source, {
     filename: filename,
     onWarning: function emitLoaderWarning(error){
       loader.emitWarning(error.toString());
     }
   });
-  var options = getOptions(loader) || {};
-  var debug = 'debug' in options ? options.debug : loader.debug || false;
-  var keysToRemove = options.keysToRemove || [];
+
   var anyKeysToRemove = Boolean(Array.isArray(keysToRemove) && keysToRemove.length);
   var replacerConf = {
     debug: debug,
