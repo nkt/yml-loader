@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnkt%2Fyml-loader.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnkt%2Fyml-loader?ref=badge_shield)
+
 YAML Loader
 ===========
 
@@ -83,3 +85,7 @@ Will output:
 License
 -------
 [MIT](LICENSE)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnkt%2Fyml-loader.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnkt%2Fyml-loader?ref=badge_large)
